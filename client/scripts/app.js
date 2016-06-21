@@ -1,6 +1,8 @@
 var app = { 
 
+  currentRoom: '',
   storedData: {},
+  friendList: {},
 	
   send: function(message) {
 				
@@ -47,16 +49,28 @@ var displayMessages = function(room) {
     
                       // i < 20, when room only had 4 people then the 5th is undefined hence why it couldnt read property
                       // username of undefined 
-  for (var i = 0; i < app.storedData[room].length; i++) {
-    var $user = $("<div class ='" + app.storedData[room][i].userName + "'></div");
-    var text = app.storedData[room][i].userName + ': ' + app.storedData[room][i].text;
+  if (app.storedData[room]) {
+    for (var i = 0; i < app.storedData[room].length; i++) {
+      var $user = $("<div class ='" + app.storedData[room][i].userName + "'></div>");
+      var text = app.storedData[room][i].userName + ': ' + app.storedData[room][i].text;
 
-    $user.text(text);
-    $user.appendTo('#chats');	
+      $user.text(text);
+      $user.appendTo('#chats');	
+    }
   }
+
+  $('#chats').children().on('click', function() {
+    var friendName = $(this).attr('class');
+
+    $('div.' + friendName).addClass('friend');
+  
+    app.friendList[friendName] = friendName; 
+  });
 };
 
 var captureData = function(data) {
+
+  app.storedData = {};
 
   for (var i = 0; i < data.results.length; i++) {
     if (data.results[i].roomname !== undefined && data.results[i].username !== undefined && data.results[i].text !== undefined) {
@@ -75,24 +89,60 @@ var captureData = function(data) {
   }
 	
   createRoomsList();
-  displayMessages();
+  displayMessages(app.currentRoom);
 	
 };
 
 var createRoomsList = function() {
+  $('.rooms').html('');
+
   for (var key in app.storedData) {
     $('.rooms').append( new Option(key, key));
   }
 
   $('.rooms').on('change', function() {
-    displayMessages(this.value);
+    if (this.value === 'newRoom') {
+      createNewRoom();
+    } else {
+      app.currentRoom = this.value;
+      displayMessages(this.value);
+    }
   }); 
 };
 
 
-$('.sendMessage').on('submit', function() { 
-  console.log("hi");
+
+var createNewRoom = function() {
+  var newRoomName = prompt('Please enter a room name');
+
+  app.storedData[newRoomName] = []; 
+  app.currentRoom = newRoomName;
+};
+
+$(document).ready(function () {
+  $('#sendForm').on('click', function(e) {
+  
+    var userName = window.location.search.substring(10);
+    var text = $('#msg').val();
+
+    sendMessage(userName, text);
+  });
+    
 });
+
+var sendMessage = function(userName, text) {
+
+  var message = { username: userName, text: text, roomname: app.currentRoom};
+
+  app.send(message);
+  app.fetch();
+
+};
+
+
+setInterval(function() {
+  app.fetch();
+}, 60000);
 
 window.onload = app.fetch;
 

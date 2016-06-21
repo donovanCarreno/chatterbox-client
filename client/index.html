@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>ChatBox</title>
+  
     <link rel="stylesheet" href="styles/styles.css">
-
     <!-- dependencies -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
@@ -16,11 +16,13 @@
     <div id="main">
       <h1>ChatBox</h1>
       <form>
-        Input Message: <input type="text" name="msg"><br>
-        <button class="sendMessage" type="submit">Click Me!</button>
-      </form>
+        <input type="text" id='msg'><br><br>
+        <input type="button" id="sendForm" value="Submit">
+     </form>
       <!-- Your HTML goes here! -->
-      <select class="rooms"></select>
+      <select class="rooms">
+        <option value='newRoom'>New Room...</option>
+      </select>
       <div class="messages"></div>
     </div>
     <div id="chats"></div>
