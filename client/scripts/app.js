@@ -46,16 +46,19 @@ var app = {
 var displayMessages = function(room) {
 
   $('#chats').html('');
-    
-                      // i < 20, when room only had 4 people then the 5th is undefined hence why it couldnt read property
-                      // username of undefined 
+  
   if (app.storedData[room]) {
     for (var i = 0; i < app.storedData[room].length; i++) {
+
       var $user = $("<div class ='" + app.storedData[room][i].userName + "'></div>");
       var text = app.storedData[room][i].userName + ': ' + app.storedData[room][i].text;
 
       $user.text(text);
-      $user.appendTo('#chats');	
+      $user.appendTo('#chats');
+
+      if (app.friendList.hasOwnProperty(app.storedData[room][i].userName)) {
+        $($user).addClass('friend');
+      }	
     }
   }
 
