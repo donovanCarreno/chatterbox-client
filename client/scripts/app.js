@@ -57,7 +57,7 @@ var displayMessages = function(room) {
       var text = app.storedData[room][i].text;
 
       // Creating div classes for each userName 
-      var $user = $("<div class ='" + userName + "'></div>");
+      var $user = $("<div class ='" + userName + " chat'></div>");
       var userText = userName + ': ' + text;
 
       // Appending messages to the page 
@@ -71,9 +71,14 @@ var displayMessages = function(room) {
     }
   }
 
+  console.log($('#chats').children());
+
   // On click, highlight name and add to friend list
   $('#chats').children().on('click', function() {
-    var friendName = $(this).attr('class');
+  
+    // Line 60 added two classes, friendName is the first class
+    // split necessary to get friendName
+    var friendName = $(this).attr('class').split(' ')[0];
 
     $('div.' + friendName).addClass('friend');
   
