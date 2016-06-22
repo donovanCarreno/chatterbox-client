@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>ChatBox</title>
-  
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="styles/styles.css">
     <!-- dependencies -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -15,14 +15,16 @@
   <body>
     <div id="main">
       <h1>ChatBox</h1>
-      <form>
-        <input type="text" id='msg'><br><br>
-        <input type="button" id="sendForm" value="Submit">
-     </form>
-      <!-- Your HTML goes here! -->
-      <select class="rooms">
-        <option value='newRoom'>New Room...</option>
-      </select>
+      <div>
+        <form>
+          <input type="text" id='msg'><br><br>
+          <input type="button" id="sendForm" value="Submit">
+       </form>
+        <!-- Your HTML goes here! -->
+        <select class="rooms">
+          <option value='newRoom'>New Room...</option>
+        </select>
+      </div>
       <div class="messages"></div>
     </div>
     <div id="chats"></div>
